@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Customer } from '../services/customer';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-customers',
-  imports: [],
+  imports: [
+    JsonPipe
+  ],
   templateUrl: './customers.html',
   styleUrl: './customers.css',
 })
 export class Customers implements OnInit {
   customers : any;
-  constructor(private http : HttpClient) {
+  errorMessage! : object ;
+  constructor(private customerService : Customer) {
 
   }
   ngOnInit() {
-    this.http.get('http://127.0.0.1:8085/customers').subscribe({
+    this.customerService.getCustomers()
+    .subscribe({
       next  :(data) => this.customers = data,
-      error : (err)  => console.log(err)
-    })
+      error : (err)  => this.errorMessage = err
+    });
   }
+
 }
