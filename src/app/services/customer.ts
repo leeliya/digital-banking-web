@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Customer } from '../model/customer.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Customer {
+export class CustomerService {
   constructor(private  http : HttpClient) {
   }
 
-  public getCustomers() : Observable<any> {
-    return this.http.get('http://127.0.0.1:8085/customer');
+  public getCustomers() : Observable<Array<Customer>> {
+    return this.http.get<Array<Customer>>('http://127.0.0.1:8085/customers');
   }
 }
