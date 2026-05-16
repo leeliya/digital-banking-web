@@ -1,28 +1,38 @@
 <div class="container mt-2">
-  @if (customers) {
-    <div class="card">
-      <div class="card-header">Customers</div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-          </tr>
-          </thead>
-          <tbody>
-            @for(customer of customers| async ; track customer.id)
-            {
-              <tr >
-                <th scope="row">{{customer.id}}</th>
-                <td>{{customer.name}}</td>
-                <td>{{customer.email}}</td>
+    @if (customers | async; as listCustomers) {
+      <ng-container >
+        <div class="card">
+          <div class="card-header">Customers</div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
               </tr>
-            }
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                @for(customer of listCustomers ; track customer.id)
+                {
+                  <tr >
+                    <th scope="row">{{customer.id}}</th>
+                    <td>{{customer.name}}</td>
+                    <td>{{customer.email}}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+    }
+    @else {
+      <ng-container *ngTemplateOutlet="failure"></ng-container>
+    }
+    <ng-template #failure>
+      <div class="alert alert-danger" role="alert">
+        {{ errorMessage }}
       </div>
-    </div>
-  }
+    </ng-template>
 </div>
