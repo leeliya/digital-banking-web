@@ -4,7 +4,14 @@
         <div class="card">
           <div class="card-header">Customers</div>
           <div class="card-body">
-            <table class="table">
+            <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="keyword">Keyword :</label>
+                <input type="text" class="form-control" placeholder="Search by name" name="keyword" formControlName="keyword">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search" ></i></button>
+              </div>
+            </form>
+            <table class="table mt-3">
               <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -28,11 +35,22 @@
       </ng-container>
     }
     @else {
-      <ng-container *ngTemplateOutlet="failure"></ng-container>
+      <ng-container *ngTemplateOutlet="failureOrLoading"></ng-container>
     }
-    <ng-template #failure>
-      <div class="alert alert-danger" role="alert">
-        {{ errorMessage }}
+    <ng-template #failureOrLoading>
+      @if (errorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      } @else if (loading){
+        <ng-container *ngTemplateOutlet="loading"></ng-container>
+      }
+    </ng-template>
+    <ng-template #loading>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </ng-template>
 </div>
