@@ -26,6 +26,11 @@
                     <th scope="row">{{customer.id}}</th>
                     <td>{{customer.name}}</td>
                     <td>{{customer.email}}</td>
+                    <td>
+                      <button class="btn btn-danger">
+                        <i class="bi bi-trash" (click)="handleDeleteCustomer(customer)"></i>
+                      </button>
+                    </td>
                   </tr>
                 }
               </tbody>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CustomerService } from '../services/customer';
 import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
-import { async, catchError, Observable, throwError } from 'rxjs';
+import { async, catchError, map, Observable, throwError } from 'rxjs';
 import { Customer } from '../model/customer.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -12,7 +12,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     AsyncPipe,
     NgTemplateOutlet,
     ReactiveFormsModule,
-    JsonPipe
   ],
   templateUrl: './customers.html',
   styleUrl: './customers.css',
@@ -41,4 +40,23 @@ export class Customers implements OnInit {
     );
   }
 
+  handleDeleteCustomer(customer: Customer) {
+      if(confirm("Are you sure you want to delete this customer?")) {
+        this.customerService.deleteCustomer(customer.id).subscribe({
+          next: result => {
+            this.customers= this.customers.pipe(
+              map(data => {
+                let index = data.indexOf(customer);
+                data.slice(index,1);
+                return data;
+              }),
+            )
+          },
+          error: err => {
+            alert(err.message);
+          }
+      });
+      }
+
+  }
 }

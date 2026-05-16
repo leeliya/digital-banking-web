@@ -1,1 +1,30 @@
-<p>new-customer works!</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header">New Customer</div>
+    <div class="card-body">
+      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+          @if ( newCustomerFormGroup.controls['name'].errors?.['required'] && newCustomerFormGroup.controls['name'].touched) {
+            <span class="text-danger" >Name is required</span>
+          }
+          @if (newCustomerFormGroup.controls['name'].errors?.['minlength'] && newCustomerFormGroup.controls['name'].touched) {
+            <span class="text-danger" >Name should have at least 5 characters</span>
+          }
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email">
+          @if ( newCustomerFormGroup.controls['email'].errors?.['email'] && newCustomerFormGroup.controls['email'].touched ) {
+            <span class="text-danger">Email is not valid</span>
+          }
+          @if (newCustomerFormGroup.controls['email'].errors?.['required'] && newCustomerFormGroup.controls['email'].touched) {
+            <span class="text-danger">Email is required</span>
+          }
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!newCustomerFormGroup.valid">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
